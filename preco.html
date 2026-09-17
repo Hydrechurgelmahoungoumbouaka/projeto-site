@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preço - DevCurso 3D</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a página de preços */
+        .pricing-section {
+            padding: 80px 8%;
+            text-align: center;
+        }
+
+        .pricing-header h1 {
+            color: #d6cebf;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .pricing-header p {
+            color: #aba395;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+        }
+
+        /* Container dos Cards */
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        /* Estrutura do Card */
+        .price-card {
+            background-color: #3b3531;
+            /* Tom marrom um pouco mais escuro que o fundo */
+            border: 2px solid #5a524c;
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 320px;
+            text-align: left;
+            transition: transform 0.3s, border-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Efeito de destaque no plano mais vendido */
+        .price-card.featured {
+            border-color: #d6cebf;
+            transform: scale(1.05);
+            position: relative;
+        }
+
+        .price-card.featured::before {
+            content: "MAIS VENDIDO";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d6cebf;
+            color: #4a433e;
+            padding: 4px 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 20px;
+            letter-spacing: 1px;
+        }
+
+        .price-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .price-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        /* Conteúdo do Card */
+        .card-title {
+            color: #aba395;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .card-price {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .card-price span {
+            font-size: 1rem;
+            color: #aba395;
+            font-weight: normal;
+        }
+
+        /* Lista de Benefícios */
+        .features-list {
+            list-style: none;
+            margin-bottom: 35px;
+        }
+
+        .features-list li {
+            color: #d6cebf;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Ícone de check simplificado usando CSS */
+        .features-list li::before {
+            content: "✓";
+            color: #aba395;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Botão do Card */
+        .btn-card {
+            background-color: transparent;
+            color: #d6cebf;
+            border: 2px solid #d6cebf;
+            padding: 14px;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-card:hover {
+            background-color: #d6cebf;
+            color: #4a433e;
+        }
+
+        .featured .btn-card {
+            background-color: #d6cebf;
+            color: #4a433e;
+        }
+
+        .featured .btn-card:hover {
+            background-color: #ffffff;
+            border-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="pricing-section">
+        <div class="pricing-header">
+            <h1>Planos e Preços</h1>
+            <p>Escolha o plano ideal para iniciar sua jornada no desenvolvimento web</p>
+        </div>
+
+        <div class="cards-container">
+
+            <!-- Plano Básico -->
+            <div class="price-card">
+                <div>
+                    <div class="card-title">Plano Start</div>
+                    <div class="card-price">R$ 29<span>/mês</span></div>
+                    <ul class="features-list">
+                        <li>Acesso ao módulo de HTML</li>
+                        <li>Acesso ao módulo de CSS</li>
+                        <li>Exercícios práticos</li>
+                        <li>Suporte pela comunidade</li>
+                    </ul>
+                </div>
+                <a href="#" class="btn-card">Começar Agora</a>
+            </div>
+
+            <!-- Plano Premium (Destaque) -->
+            <div class="price-card featured">
+                <div>
+                    <div class="card-title">Plano Pro</div>
+                    <div class="card-price">R$ 49<span>/mês</span></div>
+                    <ul class="features-list">
+                        <li>Tudo do plano Start</li>
+                        <li>Acesso ao Curso de Projetos 3D</li>
+                        <li>Certificado de Conclusão</li>
+                        <li>Suporte direto com os Devs</li>
+                        <li>Atualizações vitalícias</li>
+                    </ul>
+                </div>
+                <a href="#" class="btn-card">Garantir Vaga Pro</a>
+            </div>
+
+        </div>
+    </section>
+    <!--SCRIPT do javaScript-->
+    <script>
+        // Seleciona todos os botões de inscrição da página
+        const botoes = document.querySelectorAll('.btn-card');
+
+        // Adiciona a ação de clique em cada um deles
+        botoes.forEach(botao => {
+            botao.addEventListener('click', function (evento) {
+                evento.preventDefault(); // Impede a página de recarregar
+                alert('Parabéns! Sua inscrição foi iniciada. Sistema de pagamento abrindo...');
+            });
+        });
+    </script>
+</body>
+
+</html>

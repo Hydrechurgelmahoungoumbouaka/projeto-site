@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas - DevCurso 3D</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a página de aulas */
+        .modules-section {
+            padding: 80px 8%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .modules-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .modules-header h1 {
+            color: #d6cebf;
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .modules-header p {
+            color: #aba395;
+            font-size: 1.2rem;
+        }
+
+        /* Container de Módulos */
+        .modules-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Estrutura do Card do Módulo */
+        .module-card {
+            background-color: #3b3531;
+            /* Marrom mais escuro para os blocos */
+            border: 1px solid #5a524c;
+            border-radius: 12px;
+            padding: 25px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .module-card:hover {
+            transform: translateX(5px);
+            border-color: #d6cebf;
+        }
+
+        /* Cabeçalho do Módulo */
+        .module-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #5a524c;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .module-title h2 {
+            color: #ffffff;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .module-title span {
+            color: #aba395;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .module-badge {
+            background-color: #5a524c;
+            color: #d6cebf;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            border-radius: 20px;
+        }
+
+        /* Lista de Aulas internas */
+        .lessons-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .lessons-list li {
+            display: flex;
+            justify-content: space-between;
+            color: #d6cebf;
+            font-size: 1rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .lessons-list li:hover {
+            background-color: #4a433e;
+            /* Realce ao passar o mouse */
+        }
+
+        .lesson-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Ícone simulado de "Play" */
+        .lesson-left::before {
+            content: "▶";
+            color: #aba395;
+            font-size: 0.8rem;
+        }
+
+        .lesson-duration {
+            color: #aba395;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="modules-section">
+        <div class="modules-header">
+            <h1>Grade de Aulas</h1>
+            <p>Acesse o conteúdo cronológico e domine o desenvolvimento front-end</p>
+        </div>
+
+        <div class="modules-container">
+
+            <!-- Módulo 1 -->
+            <div class="module-card">
+                <div class="module-info">
+                    <div class="module-title">
+                        <span>Módulo 01</span>
+                        <h2>Introdução e HTML5 Semântico</h2>
+                    </div>
+                    <div class="module-badge">4 Aulas</div>
+                </div>
+                <ul class="lessons-list">
+                    <li>
+                        <div class="lesson-left">Como a Web funciona e Configuração do VS Code</div>
+                        <span class="lesson-duration">15 min</span>
+                    </li>
+                    <li>
+                        <div class="lesson-left">A Estrutura Básica do HTML (Tags, Head e Body)</div>
+                        <span class="lesson-duration">22 min</span>
+                    </li>
+                    <li>
+                        <div class="lesson-left">Trabalhando com Textos, Listas e Links</div>
+                        <span class="lesson-duration">18 min</span>
+                    </li>
+                    <li>
+                        <div class="lesson-left">Imagens e HTML Semântico para SEO</div>
+                        <span class="lesson-duration">25 min</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Módulo 2 -->
+            <div class="module-card">
+                <div class="module-info">
+                    <div class="module-title">
+                        <span>Módulo 02</span>
+                        <h2>Estilização Moderna com CSS3</h2>
+                    </div>
+                    <div class="module-badge">4 Aulas</div>
+                </div>
+                <ul class="lessons-list">
+                    <li>
+                        <div class="lesson-left">Introdução ao CSS: Seletores, Cores e Fontes</div>
+                        <span class="lesson-duration">20 min</span>
+                    </li>
+                    <li>
+                        <div class="lesson-left">O Box Model (Margin, Padding e Border)</div>
+                        <span class="lesson-duration">30 min</span>
+                    </li>
+                    <li>
+                        <div class="lesson-left">Alinhamentos Perfeitos com Flexbox</div>
+                        <span class="lesson-duration">35 min</span>
+                    </li>
+                    <li>
+                        <div class="lesson-left">Criando Layouts Responsivos (Mobile First)</div>
+                        <span class="lesson-duration">28 min</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Módulo 3 -->
+            <div class="module-card">
+                <div class="module-info">
+                    <div class="module-title">
+                        <span>Módulo 03</span>
+                        <h2>Projeto Prático e Efeitos 3D</h2>
+                    </div>
+                    <div class="module-badge">3 Aulas</div>
+                </div>
+                <ul class="lessons-list">
+                    <li>
+                        <div class="lesson-left">Criando a Estrutura da nossa Landing Page</div>
+                        <span class="lesson-duration">40 min</span>
+                    </li>
+                    <li>
+                        <div class="lesson-left">Aplicando o Design 3D Claymorphism com CSS</div>
+                        <span class="lesson-duration">45 min</span>
+                    </li>
+                    <li>
+                        <div class="lesson-left">Hospedagem Gratuita e Publicação na Web</div>
+                        <span class="lesson-duration">15 min</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
+</html>

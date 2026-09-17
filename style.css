@@ -1,0 +1,174 @@
+/* Configurações Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #4a433e;
+    /* Cor escura de fundo da imagem */
+    color: #ffffff;
+    overflow-x: hidden; 
+}
+
+/* Menu */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 8%;
+    align-items: center; 
+}
+
+.navbar nav a {
+    color: #d6cebf;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.3s; 
+}
+
+.navbar nav a:hover {
+    color: #ffffff; 
+}
+
+/* Seção Principal (Lado a Lado) */
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 8%;
+    min-height: 80vh;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.hero-text {
+    max-width: 50%;
+    min-width: 300px;
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    color: #d6cebf;
+    /* Tom de bege do monitor */
+    margin-bottom: 20px;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    color: #aba395;
+}
+
+/* Botão Estilo Minimalista */
+.btn-primary {
+    background-color: #d6cebf;
+    color: #4a433e;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none; 
+}
+
+.btn-primary:hover {
+    background-color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Imagem */
+.hero-image {
+    max-width: 45%;
+    min-width: 300px; 
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+/* Estilos da Seção do Instrutor */
+.instructor-section {
+    background-color: #3b3531;
+    /* Tom marrom ligeiramente mais escuro para contrastar */
+    padding: 80px 8%;
+    border-top: 1px solid #5a524c;
+}
+
+.instructor-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    /* Garante que fique bom no celular */
+}
+
+.instructor-image {
+    flex: 1;
+    max-width: 300px;
+}
+
+.instructor-image img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    /* Faz a foto se ajustar perfeitamente sem amassar */
+    border-radius: 20px;
+    /* Bordas arredondadas modernas */
+    border: 3px solid #d6cebf;
+    /* Borda beige combinando com o monitor */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.instructor-text {
+    flex: 2;
+    min-width: 300px;
+}
+
+.instructor-text span {
+    color: #aba395;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.instructor-text h2 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.instructor-text p {
+    color: #d6cebf;
+    line-height: 1.7;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+.instructor-badges {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap; 
+}
+
+.badge-item {
+    background-color: #4a433e;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid #5a524c;
+}
