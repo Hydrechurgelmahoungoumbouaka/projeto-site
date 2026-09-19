@@ -42,11 +42,11 @@ Como o projeto utiliza tecnologias fundamentais da web, não é necessária nenh
 
 1. Clone este repositório na sua máquina de desenvolvimento:
    ```bash
-   git clone https://github.com
+   [git clone https://github.com](https://github.com/Hydrechurgelmahoungoumbouaka/projeto-site.git)
    ```
 2. Acesse a pasta do projeto:
    ```bash
-   cd projeto-site
+   cd pasta criada via sua maquina 
    ```
 3. Abra o arquivo principal direto no seu navegador de preferência:
    ```bash
