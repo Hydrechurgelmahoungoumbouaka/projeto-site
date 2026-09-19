@@ -46,7 +46,7 @@ Como o projeto utiliza tecnologias fundamentais da web, não é necessária nenh
    ```
 2. Acesse a pasta do projeto:
    ```bash
-   cd pasta criada via sua maquina 
+   cd projeto-site
    ```
 3. Abra o arquivo principal direto no seu navegador de preferência:
    ```bash
