@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | DevCurso 3D</title>
+    <link rel="stylesheet" href="login.css">
+    <style>
+        /* Animações profissionais seguindo o padrão do Login */
+        @keyframes entradaCaixa {
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes surgirItem {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-box {
+            animation: entradaCaixa 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        .login-box .logo {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.15s forwards;
+        }
+
+        .login-box h1 {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.25s forwards;
+        }
+
+        .login-box .subtitle {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.32s forwards;
+        }
+
+        .login-box .input-group:nth-of-type(1) {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.38s forwards;
+        }
+
+        .login-box .input-group:nth-of-type(2) {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.44s forwards;
+        }
+
+        .login-box .input-group:nth-of-type(3) {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.50s forwards;
+        }
+
+        .login-box .btn-login {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.58s forwards;
+        }
+
+        .login-box .register {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.65s forwards;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-container">
+        <div class="login-box">
+            <div class="logo">DevCurso <span>3D</span></div>
+            <h1>Criar Conta</h1>
+            <p class="subtitle">Cadastre seus dados para iniciar o curso</p>
+
+            <form id="cadastroForm">
+                <div class="input-group">
+                    <label for="nomeCadastro">Nome Completo (para o Certificado)</label>
+                    <input type="text" id="nomeCadastro" required placeholder="Digite seu nome completo">
+                </div>
+
+                <div class="input-group">
+                    <label for="emailCadastro">E-mail</label>
+                    <input type="email" id="emailCadastro" required placeholder="seu@email.com">
+                </div>
+
+                <div class="input-group">
+                    <label for="senhaCadastro">Senha (Mínimo 6 caracteres)</label>
+                    <input type="password" id="senhaCadastro" required placeholder="Crie uma senha segura">
+                </div>
+
+                <button type="submit" class="btn-login">Finalizar Cadastro</button>
+
+                <div id="mensagemCadastro"
+                    style="text-align: center; margin-top: 15px; font-size: 14px; font-weight: 500;"></div>
+            </form>
+
+            <div class="register">
+                Já tem uma conta? <a href="login.html">Faça Login</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Salva automaticamente o nome completo do aluno para sair no Certificado
+        document.getElementById('cadastroForm').addEventListener('submit', function () {
+            const nomeDigitado = document.getElementById('nomeCadastro').value.trim();
+            if (nomeDigitado) {
+                localStorage.setItem('usuarioNome', nomeDigitado);
+            }
+        });
+    </script>
+
+    <script src="login.js"></script>
+</body>
+
+</html>

@@ -2,14 +2,76 @@
 <html lang="pt-BR">
 
 <head>
+    <script>
+        if (sessionStorage.getItem('logado') !== 'true') {
+            window.location.href = "login.html";
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aulas - DevCurso 3D</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilos específicos para a página de aulas */
+        .progress-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background-color: #2b2623;
+            border-bottom: 1px solid #5a524c;
+            padding: 10px 8%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 10px;
+            background-color: #1e1b18;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #aba395, #7ed957);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-text {
+            color: #d6cebf;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .btn-certificado {
+            display: none;
+            background-color: #d6cebf;
+            color: #2b2623;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            animation: pulsar 1.5s infinite;
+        }
+
+        @keyframes pulsar {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
         .modules-section {
-            padding: 80px 8%;
+            padding: 50px 8%;
             max-width: 1000px;
             margin: 0 auto;
         }
@@ -30,29 +92,19 @@
             font-size: 1.2rem;
         }
 
-        /* Container de Módulos */
         .modules-container {
             display: flex;
             flex-direction: column;
             gap: 25px;
         }
 
-        /* Estrutura do Card do Módulo */
         .module-card {
             background-color: #3b3531;
-            /* Marrom mais escuro para os blocos */
             border: 1px solid #5a524c;
             border-radius: 12px;
             padding: 25px;
-            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .module-card:hover {
-            transform: translateX(5px);
-            border-color: #d6cebf;
-        }
-
-        /* Cabeçalho do Módulo */
         .module-info {
             display: flex;
             justify-content: space-between;
@@ -84,55 +136,209 @@
             border-radius: 20px;
         }
 
-        /* Lista de Aulas internas */
         .lessons-list {
             list-style: none;
             display: flex;
             flex-direction: column;
             gap: 10px;
+            padding: 0;
         }
 
         .lessons-list li {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
             color: #d6cebf;
             font-size: 1rem;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: background-color 0.2s;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
         .lessons-list li:hover {
             background-color: #4a433e;
-            /* Realce ao passar o mouse */
         }
 
         .lesson-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        /* Ícone simulado de "Play" */
         .lesson-left::before {
-            content: "▶";
-            color: #aba395;
-            font-size: 0.8rem;
+            content: "📖";
+            font-size: 0.95rem;
+        }
+
+        .lessons-list li.lida .lesson-left::before {
+            content: "✓";
+            color: #7ed957;
+            font-weight: bold;
         }
 
         .lesson-duration {
             color: #aba395;
             font-size: 0.9rem;
         }
+
+        .resumo-conteudo {
+            width: 100%;
+            margin-top: 14px;
+            padding: 16px;
+            background-color: #2b2623;
+            border-left: 4px solid #d6cebf;
+            border-radius: 6px;
+            color: #e6dfd3;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            cursor: default;
+        }
+
+        .resumo-conteudo code {
+            background-color: #1e1b18;
+            color: #a8e6cf;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .btn-quiz {
+            margin-top: 15px;
+            background-color: transparent;
+            color: #d6cebf;
+            border: 1px solid #d6cebf;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-quiz:hover {
+            background-color: #d6cebf;
+            color: #2b2623;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 13, 12, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background-color: #3b3531;
+            border: 2px solid #d6cebf;
+            border-radius: 16px;
+            max-width: 550px;
+            width: 100%;
+            padding: 30px;
+            color: #ffffff;
+        }
+
+        .quiz-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: #2b2623;
+            color: #d6cebf;
+            border: 1px solid #5a524c;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .quiz-option:hover {
+            border-color: #d6cebf;
+        }
+
+        .certificate-paper {
+            background-color: #f9f6f0;
+            color: #2b2623;
+            border: 10px double #5a524c;
+            padding: 40px;
+            max-width: 750px;
+            width: 100%;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .certificate-paper h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #3b3531;
+        }
+
+        .certificate-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            border-bottom: 2px solid #3b3531;
+            display: inline-block;
+            padding: 5px 30px;
+            margin: 15px 0;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #certificateModal,
+            #certificateModal * {
+                visibility: visible;
+            }
+
+            #certificateModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: #ffffff;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
 <body>
 
+    <header class="navbar">
+        <div class="logo">DevCurso 3D</div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="aulas.html">Aulas</a>
+            <a href="praticar.html">Praticar</a>
+            <a href="preco.html">Preço</a>
+            <a href="#" id="btnSair"
+                style="color: #ff6b6b; margin-left: 20px; font-weight: bold; text-decoration: none;">Sair</a>
+        </nav>
+    </header>
+
+    <div class="progress-wrapper">
+        <div class="progress-track">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        <span class="progress-text" id="progressText">0% Concluído</span>
+        <button class="btn-certificado" id="btnAbrirCertificado">🎓 Emitir Certificado</button>
+    </div>
+
     <section class="modules-section">
         <div class="modules-header">
             <h1>Grade de Aulas</h1>
-            <p>Acesse o conteúdo cronológico e domine o desenvolvimento front-end</p>
+            <p>Seu progresso é salvo automaticamente. Conclua 100% para liberar seu certificado!</p>
         </div>
 
         <div class="modules-container">
@@ -147,23 +353,24 @@
                     <div class="module-badge">4 Aulas</div>
                 </div>
                 <ul class="lessons-list">
-                    <li>
-                        <div class="lesson-left">Como a Web funciona e Configuração do VS Code</div>
-                        <span class="lesson-duration">15 min</span>
+                    <li data-aula="aula1">
+                        <div class="lesson-left">Como a Web funciona e Configuração do VS Code</div><span
+                            class="lesson-duration">15 min</span>
                     </li>
-                    <li>
-                        <div class="lesson-left">A Estrutura Básica do HTML (Tags, Head e Body)</div>
-                        <span class="lesson-duration">22 min</span>
+                    <li data-aula="aula2">
+                        <div class="lesson-left">A Estrutura Básica do HTML (Tags, Head e Body)</div><span
+                            class="lesson-duration">22 min</span>
                     </li>
-                    <li>
-                        <div class="lesson-left">Trabalhando com Textos, Listas e Links</div>
-                        <span class="lesson-duration">18 min</span>
+                    <li data-aula="aula3">
+                        <div class="lesson-left">Trabalhando com Textos, Listas e Links</div><span
+                            class="lesson-duration">18 min</span>
                     </li>
-                    <li>
-                        <div class="lesson-left">Imagens e HTML Semântico para SEO</div>
-                        <span class="lesson-duration">25 min</span>
+                    <li data-aula="aula4">
+                        <div class="lesson-left">Imagens e HTML Semântico para SEO</div><span class="lesson-duration">25
+                            min</span>
                     </li>
                 </ul>
+                <button class="btn-quiz" data-modulo="1">📝 Fazer Quiz do Módulo 01</button>
             </div>
 
             <!-- Módulo 2 -->
@@ -176,23 +383,24 @@
                     <div class="module-badge">4 Aulas</div>
                 </div>
                 <ul class="lessons-list">
-                    <li>
-                        <div class="lesson-left">Introdução ao CSS: Seletores, Cores e Fontes</div>
-                        <span class="lesson-duration">20 min</span>
+                    <li data-aula="aula5">
+                        <div class="lesson-left">Introdução ao CSS: Seletores, Cores e Fontes</div><span
+                            class="lesson-duration">20 min</span>
                     </li>
-                    <li>
-                        <div class="lesson-left">O Box Model (Margin, Padding e Border)</div>
-                        <span class="lesson-duration">30 min</span>
+                    <li data-aula="aula6">
+                        <div class="lesson-left">O Box Model (Margin, Padding e Border)</div><span
+                            class="lesson-duration">30 min</span>
                     </li>
-                    <li>
-                        <div class="lesson-left">Alinhamentos Perfeitos com Flexbox</div>
-                        <span class="lesson-duration">35 min</span>
+                    <li data-aula="aula7">
+                        <div class="lesson-left">Alinhamentos Perfeitos com Flexbox</div><span
+                            class="lesson-duration">35 min</span>
                     </li>
-                    <li>
-                        <div class="lesson-left">Criando Layouts Responsivos (Mobile First)</div>
-                        <span class="lesson-duration">28 min</span>
+                    <li data-aula="aula8">
+                        <div class="lesson-left">Criando Layouts Responsivos (Mobile First)</div><span
+                            class="lesson-duration">28 min</span>
                     </li>
                 </ul>
+                <button class="btn-quiz" data-modulo="2">📝 Fazer Quiz do Módulo 02</button>
             </div>
 
             <!-- Módulo 3 -->
@@ -205,24 +413,204 @@
                     <div class="module-badge">3 Aulas</div>
                 </div>
                 <ul class="lessons-list">
-                    <li>
-                        <div class="lesson-left">Criando a Estrutura da nossa Landing Page</div>
-                        <span class="lesson-duration">40 min</span>
+                    <li data-aula="aula9">
+                        <div class="lesson-left">Criando a Estrutura da nossa Landing Page</div><span
+                            class="lesson-duration">40 min</span>
                     </li>
-                    <li>
-                        <div class="lesson-left">Aplicando o Design 3D Claymorphism com CSS</div>
-                        <span class="lesson-duration">45 min</span>
+                    <li data-aula="aula10">
+                        <div class="lesson-left">Aplicando o Design 3D Claymorphism com CSS</div><span
+                            class="lesson-duration">45 min</span>
                     </li>
-                    <li>
-                        <div class="lesson-left">Hospedagem Gratuita e Publicação na Web</div>
-                        <span class="lesson-duration">15 min</span>
+                    <li data-aula="aula11">
+                        <div class="lesson-left">Hospedagem Gratuita e Publicação na Web</div><span
+                            class="lesson-duration">15 min</span>
                     </li>
                 </ul>
+                <button class="btn-quiz" data-modulo="3">📝 Fazer Quiz do Módulo 03</button>
             </div>
 
         </div>
     </section>
 
+    <!-- Modal do Quiz -->
+    <div class="modal-overlay" id="quizModal">
+        <div class="modal-box">
+            <h3 id="quizTitle" style="margin-bottom: 15px;">Quiz do Módulo</h3>
+            <p id="quizQuestion" style="color: #d6cebf; margin-bottom: 20px;"></p>
+            <div id="quizOptions"></div>
+            <p id="quizFeedback" style="font-weight: bold; margin-top: 15px;"></p>
+            <button class="btn-quiz" id="closeQuiz" style="margin-top: 15px;">Fechar Quiz</button>
+        </div>
+    </div>
+
+    <!-- Modal do Certificado -->
+    <div class="modal-overlay" id="certificateModal">
+        <div class="certificate-paper">
+            <p style="letter-spacing: 2px; font-weight: bold;">DEVCURSO 3D — CERTIFICADO OFICIAL</p>
+            <h2>Certificado de Conclusão</h2>
+            <p>Certificamos que</p>
+            <div class="certificate-name" id="nomeAlunoCertificado">Aluno(a) DevCurso 3D</div>
+            <p>concluiu com êxito o curso completo de <strong>Desenvolvimento Web Moderno com HTML5, CSS3 e Design
+                    3D</strong>, totalizando 40 horas de atividades práticas.</p>
+            <p style="margin-top: 25px; font-size: 0.9rem;">Vitória - ES, 2026</p>
+            <p style="margin-top: 20px; font-weight: bold;">________________________________________<br>Hydrech Urgel
+                Mahoungou Mbouaka<br><span style="font-weight: normal; font-size: 0.85rem;">Instrutor & Desenvolvedor
+                    Full Stack</span></p>
+            <div class="no-print" style="margin-top: 25px; display: flex; gap: 10px; justify-content: center;">
+                <button onclick="window.print()"
+                    style="background: #3b3531; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold;">🖨️
+                    Imprimir / Salvar PDF</button>
+                <button id="closeCert"
+                    style="background: #ccc; color: #000; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold;">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const resumosAulas = {
+            aula1: `<strong>Como a Web funciona:</strong> O navegador (Cliente) solicita arquivos a um Servidor remoto, que devolve HTML, CSS e JavaScript.<br><strong>VS Code:</strong> Instale a extensão <code>Live Server</code> para visualizar alterações em tempo real.`,
+            aula2: `<strong>Estrutura Básica:</strong> O documento se divide em <code>&lt;head&gt;</code> (configurações e título) e <code>&lt;body&gt;</code> (conteúdo visível na tela).`,
+            aula3: `<strong>Textos, Listas e Links:</strong> Use <code>&lt;h1&gt;</code> a <code>&lt;h6&gt;</code> para títulos, <code>&lt;ul&gt;</code> para listas e <code>&lt;a href="..."&gt;</code> para navegação.`,
+            aula4: `<strong>Imagens e Semântica:</strong> Use tags como <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code> e <code>&lt;footer&gt;</code> para melhorar o SEO no Google.`,
+            aula5: `<strong>Introdução ao CSS:</strong> Conecte o <code>style.css</code> e estilize elementos por seletores de tag ou <code>.classe</code>.`,
+            aula6: `<strong>O Box Model:</strong> Toda caixa HTML possui conteúdo, <code>padding</code> (interno), <code>border</code> e <code>margin</code> (externo).`,
+            aula7: `<strong>Flexbox:</strong> Use <code>display: flex</code>, <code>justify-content</code> (horizontal) e <code>align-items</code> (vertical).`,
+            aula8: `<strong>Responsividade:</strong> Use <code>@media (max-width: 768px)</code> para adaptar o site em celulares.`,
+            aula9: `<strong>Landing Page:</strong> Estrutura estratégica com Hero Section chamativa e rodapé institucional.`,
+            aula10: `<strong>Claymorphism 3D:</strong> Cantos arredondados combinados com <code>box-shadow</code> interno e externo.`,
+            aula11: `<strong>Publicação:</strong> Suba no GitHub e ative o <strong>GitHub Pages</strong> na branch <code>main</code>.`
+        };
+
+        const todasAulas = document.querySelectorAll('.lessons-list li');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const btnCertificado = document.getElementById('btnAbrirCertificado');
+
+        // Identifica o usuário logado para isolar o progresso e o nome de cada conta
+        const emailAtual = localStorage.getItem('usuarioAtual') || 'visitante';
+        const chaveProgresso = 'aulasConcluidas_' + emailAtual;
+
+        // Carrega progresso salvo apenas deste usuário
+        let aulasSalvas = JSON.parse(localStorage.getItem(chaveProgresso)) || [];
+
+        function atualizarProgresso() {
+            const total = todasAulas.length;
+            const porcentagem = Math.round((aulasSalvas.length / total) * 100);
+            progressBar.style.width = porcentagem + '%';
+            progressText.textContent = porcentagem + '% Concluído';
+
+            if (porcentagem === 100) {
+                btnCertificado.style.display = 'inline-block';
+            } else {
+                btnCertificado.style.display = 'none';
+            }
+        }
+
+        // Ativa o clique nas barras de aula para abrir resumo e contar porcentagem
+        todasAulas.forEach(barra => {
+            const idAula = barra.getAttribute('data-aula');
+            if (aulasSalvas.includes(idAula)) {
+                barra.classList.add('lida');
+            }
+
+            barra.addEventListener('click', function (e) {
+                if (e.target.closest('.resumo-conteudo')) return;
+
+                const resumoExistente = this.querySelector('.resumo-conteudo');
+                if (resumoExistente) {
+                    resumoExistente.remove();
+                    return;
+                }
+
+                const caixaResumo = document.createElement('div');
+                caixaResumo.className = 'resumo-conteudo';
+                caixaResumo.innerHTML = resumosAulas[idAula];
+                this.appendChild(caixaResumo);
+                this.classList.add('lida');
+
+                if (!aulasSalvas.includes(idAula)) {
+                    aulasSalvas.push(idAula);
+                    localStorage.setItem(chaveProgresso, JSON.stringify(aulasSalvas));
+                }
+                atualizarProgresso();
+            });
+        });
+
+        atualizarProgresso();
+
+        // Lógica do Quiz
+        const perguntasQuiz = {
+            1: {
+                pergunta: "Qual tag HTML guarda todo o conteúdo visível da página na tela?",
+                opcoes: ["<head>", "<body>", "<meta>"],
+                correta: 1
+            },
+            2: {
+                pergunta: "Qual propriedade CSS controla o espaço INTERNO entre o texto e a borda?",
+                opcoes: ["margin", "padding", "border-radius"],
+                correta: 1
+            },
+            3: {
+                pergunta: "Qual serviço gratuito do GitHub coloca sites HTML/CSS no ar?",
+                opcoes: ["GitHub Actions", "GitHub Pages", "GitHub Copilot"],
+                correta: 1
+            }
+        };
+
+        const quizModal = document.getElementById('quizModal');
+        document.querySelectorAll('.btn-quiz[data-modulo]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const mod = btn.getAttribute('data-modulo');
+                const dados = perguntasQuiz[mod];
+                document.getElementById('quizTitle').textContent = 'Quiz Rápido — Módulo 0' + mod;
+                document.getElementById('quizQuestion').textContent = dados.pergunta;
+                document.getElementById('quizFeedback').textContent = "";
+                const opcoesDiv = document.getElementById('quizOptions');
+                opcoesDiv.innerHTML = "";
+
+                dados.opcoes.forEach((texto, idx) => {
+                    const optBtn = document.createElement('button');
+                    optBtn.className = 'quiz-option';
+                    optBtn.textContent = texto;
+                    optBtn.onclick = () => {
+                        const fb = document.getElementById('quizFeedback');
+                        if (idx === dados.correta) {
+                            fb.style.color = "#7ed957";
+                            fb.textContent = "✅ Resposta Correta! Fechando...";
+                            setTimeout(() => {
+                                quizModal.style.display = 'none';
+                            }, 1200);
+                        } else {
+                            fb.style.color = "#ff6b6b";
+                            fb.textContent = "❌ Ops! Tente outra opção.";
+                        }
+                    };
+                    opcoesDiv.appendChild(optBtn);
+                });
+
+                quizModal.style.display = 'flex';
+            });
+        });
+
+        document.getElementById('closeQuiz').onclick = () => quizModal.style.display = 'none';
+
+        // Lógica do Certificado vinculada ao usuário logado
+        const certModal = document.getElementById('certificateModal');
+        btnCertificado.onclick = () => {
+            const nomeSalvo = localStorage.getItem('usuarioNome_' + emailAtual) || "Aluno(a) DevCurso 3D";
+            document.getElementById('nomeAlunoCertificado').textContent = nomeSalvo;
+            certModal.style.display = 'flex';
+        };
+        document.getElementById('closeCert').onclick = () => certModal.style.display = 'none';
+
+        document.getElementById('btnSair').addEventListener('click', function (e) {
+            e.preventDefault();
+            sessionStorage.removeItem('logado');
+            window.location.href = "login.html";
+        });
+    </script>
+
+    <script src="footer.js"></script>
 </body>
 
 </html>

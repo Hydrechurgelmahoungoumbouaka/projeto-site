@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | DevCurso 3D</title>
+    <link rel="stylesheet" href="login.css">
+    <style>
+        /* --- ANIMAÇÕES PROFISSIONAIS DA TELA DE LOGIN --- */
+        @keyframes entradaCaixa {
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes surgirItem {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes flutuarFundo {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(25px, -25px) scale(1.08);
+            }
+        }
+
+        /* Efeito de profundidade suave no fundo */
+        body {
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(214, 206, 191, 0.12) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+            animation: flutuarFundo 8s ease-in-out infinite;
+        }
+
+        body::before {
+            top: -80px;
+            left: -80px;
+        }
+
+        body::after {
+            bottom: -80px;
+            right: -80px;
+            animation-delay: 4s;
+        }
+
+        /* Animação principal do card de Login */
+        .login-box {
+            animation: entradaCaixa 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Entrada em cascata dos elementos internos */
+        .login-box .logo {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.15s forwards;
+        }
+
+        .login-box h1 {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.25s forwards;
+        }
+
+        .login-box .subtitle {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.32s forwards;
+        }
+
+        .login-box .input-group:nth-of-type(1) {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.40s forwards;
+        }
+
+        .login-box .input-group:nth-of-type(2) {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.48s forwards;
+        }
+
+        .login-box .forgot-password {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.54s forwards;
+        }
+
+        .login-box .btn-login {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.60s forwards;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .login-box .register,
+        .login-box .footer {
+            opacity: 0;
+            animation: surgirItem 0.6s ease-out 0.68s forwards;
+        }
+
+        /* Micro-interações nos inputs */
+        .login-box input {
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+        }
+
+        .login-box input:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Reflexo de luz e elevação no botão Entrar */
+        .btn-login::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transition: left 0.55s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-login:hover::after {
+            left: 140%;
+        }
+
+        .btn-login:active {
+            transform: translateY(0) scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-container">
+        <div class="login-box">
+            <div class="logo">DevCurso <span>3D</span></div>
+            <h1>Acessar o Curso</h1>
+            <p class="subtitle">Insira seus dados para liberar as aulas</p>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <div class="password-box">
+                        <input type="password" id="senha" required placeholder="Digite sua senha">
+                        <button type="button" id="toggleSenha">Mostrar</button>
+                    </div>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Entrar no Curso</button>
+
+                <!-- Tag onde as mensagens de erro ou sucesso vão aparecer -->
+                <div id="mensagem"></div>
+            </form>
+
+            <div class="register">
+                Não tem uma conta? <a href="cadastro.html">Cadastre-se</a>
+            </div>
+
+            <div class="footer">
+                &copy; 2026 DevCurso 3D - Todos os direitos reservados.
+            </div>
+        </div>
+    </main>
+
+    <!-- Vincule o seu arquivo JavaScript aqui -->
+    <script src="login.js"></script>
+</body>
+
+</html>

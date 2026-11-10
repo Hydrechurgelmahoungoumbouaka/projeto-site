@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <script>
+        if (sessionStorage.getItem('logado') !== 'true') {
+            window.location.href = "login.html";
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratório de Código | DevCurso 3D</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .lab-section {
+            padding: 40px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .lab-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .lab-header h1 {
+            color: #d6cebf;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .lab-header p {
+            color: #aba395;
+            font-size: 1.1rem;
+        }
+
+        .lab-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3b3531;
+            padding: 12px 20px;
+            border-radius: 12px 12px 0 0;
+            border: 1px solid #5a524c;
+            border-bottom: none;
+        }
+
+        .lab-toolbar span {
+            color: #d6cebf;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .btn-reset {
+            background-color: #5a524c;
+            color: #ffffff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-reset:hover {
+            background-color: #d6cebf;
+            color: #2b2623;
+        }
+
+        .workspace {
+            display: flex;
+            height: 520px;
+            border: 1px solid #5a524c;
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+        }
+
+        #codeEditor {
+            flex: 1;
+            background-color: #1e1b18;
+            color: #a8e6cf;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            padding: 20px;
+            border: none;
+            resize: none;
+            outline: none;
+        }
+
+        #livePreview {
+            flex: 1;
+            background-color: #ffffff;
+            border: none;
+            border-left: 2px solid #5a524c;
+        }
+
+        @media (max-width: 768px) {
+            .workspace {
+                flex-direction: column;
+                height: 700px;
+            }
+            #livePreview {
+                border-left: none;
+                border-top: 2px solid #5a524c;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">DevCurso 3D</div>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="aulas.html">Aulas</a>
+            <a href="praticar.html">Praticar</a>
+            <a href="preco.html">Preço</a>
+            <a href="#" id="btnSair" style="color: #ff6b6b; margin-left: 20px; font-weight: bold; text-decoration: none;">Sair</a>
+        </nav>
+    </header>
+
+    <section class="lab-section">
+        <div class="lab-header">
+            <h1>Laboratório Prático HTML & CSS</h1>
+            <p>Digite seu código à esquerda e veja o resultado ganhar vida à direita em tempo real</p>
+        </div>
+
+        <div class="lab-toolbar">
+            <span>💻 Editor Ao Vivo (index.html + CSS)</span>
+            <button class="btn-reset" id="btnResetCode">Restaurar Modelo</button>
+        </div>
+
+        <div class="workspace">
+            <textarea id="codeEditor" spellcheck="false"></textarea>
+            <iframe id="livePreview" title="Resultado ao Vivo"></iframe>
+        </div>
+    </section>
+
+    <script>
+        const editor = document.getElementById('codeEditor');
+        const preview = document.getElementById('livePreview');
+        const btnReset = document.getElementById('btnResetCode');
+
+        const codigoInicial = `<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f1ea;
+    color: #3b3531;
+    text-align: center;
+    padding: 40px;
+  }
+  .cartao-3d {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 25px rgba(0,0,0,0.15);
+    max-width: 350px;
+    margin: 0 auto;
+  }
+  button {
+    background: #3b3531;
+    color: #d6cebf;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+</style>
+
+<div class="cartao-3d">
+  <h1>Olá, DevCurso 3D!</h1>
+  <p>Edite este texto ou mude as cores no CSS ao lado.</p>
+  <button onclick="alert('Funcionando!')">Testar Clique</button>
+</div>`;
+
+        function atualizarPreview() {
+            preview.srcdoc = editor.value;
+        }
+
+        editor.value = codigoInicial;
+        atualizarPreview();
+
+        editor.addEventListener('input', atualizarPreview);
+
+        btnReset.addEventListener('click', () => {
+            editor.value = codigoInicial;
+            atualizarPreview();
+        });
+
+        document.getElementById('btnSair').addEventListener('click', function (e) {
+            e.preventDefault();
+            sessionStorage.removeItem('logado');
+            window.location.href = "login.html";
+        });
+    </script>
+
+    <script src="footer.js"></script>
+</body>
+
+</html>

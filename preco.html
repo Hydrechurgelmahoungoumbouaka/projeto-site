@@ -2,15 +2,47 @@
 <html lang="pt-BR">
 
 <head>
+    <script>
+        if (sessionStorage.getItem('logado') !== 'true') {
+            window.location.href = "login.html";
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preço - DevCurso 3D</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilos específicos para a página de preços */
+        @keyframes surgirSuave {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes surgirDestaque {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.05) translateY(0);
+            }
+        }
+
         .pricing-section {
             padding: 80px 8%;
             text-align: center;
+        }
+
+        .pricing-header {
+            animation: surgirSuave 0.7s ease-out forwards;
         }
 
         .pricing-header h1 {
@@ -25,34 +57,44 @@
             margin-bottom: 50px;
         }
 
-        /* Container dos Cards */
         .cards-container {
             display: flex;
             justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
             margin-top: 20px;
+            perspective: 1200px;
         }
 
-        /* Estrutura do Card */
         .price-card {
             background-color: #3b3531;
-            /* Tom marrom um pouco mais escuro que o fundo */
             border: 2px solid #5a524c;
             border-radius: 16px;
             padding: 40px 30px;
             width: 320px;
             text-align: left;
-            transition: transform 0.3s, border-color 0.3s;
+            opacity: 0;
+            transition: transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transform-style: preserve-3d;
         }
 
-        /* Efeito de destaque no plano mais vendido */
+        .price-card:nth-child(1) {
+            animation: surgirSuave 0.7s ease-out 0.15s forwards;
+        }
+
+        .price-card:nth-child(2) {
+            animation: surgirSuave 0.7s ease-out 0.30s forwards;
+        }
+
+        .price-card:nth-child(3) {
+            animation: surgirDestaque 0.7s ease-out 0.45s forwards;
+        }
+
         .price-card.featured {
             border-color: #d6cebf;
-            transform: scale(1.05);
             position: relative;
         }
 
@@ -72,14 +114,10 @@
         }
 
         .price-card:hover {
-            transform: translateY(-5px);
+            border-color: #d6cebf;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
         }
 
-        .price-card.featured:hover {
-            transform: scale(1.05) translateY(-5px);
-        }
-
-        /* Conteúdo do Card */
         .card-title {
             color: #aba395;
             font-size: 1.2rem;
@@ -101,10 +139,10 @@
             font-weight: normal;
         }
 
-        /* Lista de Benefícios */
         .features-list {
             list-style: none;
             margin-bottom: 35px;
+            padding: 0;
         }
 
         .features-list li {
@@ -115,7 +153,6 @@
             align-items: center;
         }
 
-        /* Ícone de check simplificado usando CSS */
         .features-list li::before {
             content: "✓";
             color: #aba395;
@@ -123,7 +160,6 @@
             margin-right: 10px;
         }
 
-        /* Botão do Card */
         .btn-card {
             background-color: transparent;
             color: #d6cebf;
@@ -135,9 +171,10 @@
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            transition: 0.3s;
+            transition: all 0.25s ease;
             text-decoration: none;
             display: inline-block;
+            box-sizing: border-box;
         }
 
         .btn-card:hover {
@@ -154,10 +191,196 @@
             background-color: #ffffff;
             border-color: #ffffff;
         }
+
+        /* --- JANELA DE PAGAMENTO COM CARTÃO (MODAL) --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(18, 16, 14, 0.88);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background-color: #3b3531;
+            border: 2px solid #d6cebf;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            text-align: left;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            animation: abrirModal 0.25s ease-out;
+        }
+
+        @keyframes abrirModal {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #5a524c;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #ffffff;
+            font-size: 1.35rem;
+            margin: 0;
+        }
+
+        .btn-close {
+            background: #5a524c;
+            color: #ffffff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-close:hover {
+            background: #ff6b6b;
+        }
+
+        .plan-summary {
+            background-color: #2b2623;
+            border-left: 4px solid #d6cebf;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            color: #d6cebf;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plan-summary strong {
+            color: #ffffff;
+            font-size: 1.15rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #d6cebf;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #5a524c;
+            background-color: #2b2623;
+            color: #ffffff;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #d6cebf;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn-pay {
+            background-color: #d6cebf;
+            color: #2b2623;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+            text-align: center;
+            box-sizing: border-box;
+            transition: background 0.2s;
+        }
+
+        .btn-pay:hover {
+            background-color: #ffffff;
+        }
+
+        .success-screen {
+            text-align: center;
+            padding: 15px 5px;
+        }
+
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            background-color: #4caf50;
+            color: #ffffff;
+            font-size: 2.2rem;
+            line-height: 64px;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+        }
+
+        .success-screen h3 {
+            color: #ffffff;
+            font-size: 1.45rem;
+            margin-bottom: 10px;
+        }
+
+        .success-screen p {
+            color: #d6cebf;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 
 <body>
+
+    <header class="navbar">
+        <div class="logo">DevCurso 3D</div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="aulas.html">Aulas</a>
+            <a href="praticar.html">Praticar</a>
+            <a href="preco.html">Preço</a>
+            <a href="#" id="btnSair"
+                style="color: #ff6b6b; margin-left: 20px; font-weight: bold; text-decoration: none;">Sair</a>
+        </nav>
+    </header>
 
     <section class="pricing-section">
         <div class="pricing-header">
@@ -166,7 +389,6 @@
         </div>
 
         <div class="cards-container">
-
             <!-- Plano Básico -->
             <div class="price-card">
                 <div>
@@ -179,7 +401,7 @@
                         <li>Suporte pela comunidade</li>
                     </ul>
                 </div>
-                <a href="#" class="btn-card">Começar Agora</a>
+                <a href="#" class="btn-card" data-plano="Plano Start" data-valor="R$ 29,00/mês">Começar Agora</a>
             </div>
 
             <!-- Plano Premium (Destaque) -->
@@ -195,24 +417,166 @@
                         <li>Atualizações vitalícias</li>
                     </ul>
                 </div>
-                <a href="#" class="btn-card">Garantir Vaga Pro</a>
+                <a href="#" class="btn-card" data-plano="Plano Pro" data-valor="R$ 49,00/mês">Garantir Vaga Pro</a>
             </div>
 
         </div>
     </section>
-    <!--SCRIPT do javaScript-->
-    <script>
-        // Seleciona todos os botões de inscrição da página
-        const botoes = document.querySelectorAll('.btn-card');
 
-        // Adiciona a ação de clique em cada um deles
-        botoes.forEach(botao => {
-            botao.addEventListener('click', function (evento) {
-                evento.preventDefault(); // Impede a página de recarregar
-                alert('Parabéns! Sua inscrição foi iniciada. Sistema de pagamento abrindo...');
+    <!-- Janela de Pagamento com Cartão -->
+    <div class="modal-overlay" id="cardModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>💳 Pagamento com Cartão</h2>
+                <button class="btn-close" id="closeCardModal" title="Fechar">✕</button>
+            </div>
+
+            <div id="cardFormArea">
+                <div class="plan-summary">
+                    <span id="modalPlanName">Plano</span>
+                    <strong id="modalPlanPrice">R$ 0,00</strong>
+                </div>
+
+                <form id="creditCardForm">
+                    <div class="form-group">
+                        <label for="cardMode">Modalidade</label>
+                        <select id="cardMode" required>
+                            <option value="Crédito">Cartão de Crédito</option>
+                            <option value="Débito">Cartão de Débito</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardName">Nome Impresso no Cartão</label>
+                        <input type="text" id="cardName" placeholder="Ex: HYDRECH M MBOUAKA" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cardNumber">Número do Cartão</label>
+                        <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cardExpiry">Validade (MM/AA)</label>
+                            <input type="text" id="cardExpiry" placeholder="12/29" maxlength="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardCvv">Código CVV</label>
+                            <input type="text" id="cardCvv" placeholder="123" maxlength="4" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-pay" id="btnSubmitCard">Confirmar Pagamento</button>
+                </form>
+            </div>
+
+            <div id="cardSuccessArea" class="success-screen" style="display: none;">
+                <div class="success-icon">✓</div>
+                <h3>Pagamento realizado com sucesso!</h3>
+                <p id="cardSuccessText">Sua assinatura foi aprovada e todos os módulos já estão liberados.</p>
+                <a href="aulas.html" class="btn-pay" style="display: inline-block; text-decoration: none;">Ir para as
+                    Aulas Agora</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Efeito Tilt 3D nos Cards de Preço
+        document.querySelectorAll('.price-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                const escalaBase = card.classList.contains('featured') ? 1.05 : 1;
+                card.style.transform = `scale(${escalaBase}) rotateY(${x * 16}deg) rotateX(${-y * 16}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                const escalaBase = card.classList.contains('featured') ? 1.05 : 1;
+                card.style.transform = `scale(${escalaBase}) rotateY(0deg) rotateX(0deg)`;
             });
         });
+
+        // Lógica do Checkout com Cartão
+        const cardModal = document.getElementById('cardModal');
+        const closeCardModal = document.getElementById('closeCardModal');
+        const modalPlanName = document.getElementById('modalPlanName');
+        const modalPlanPrice = document.getElementById('modalPlanPrice');
+        const cardFormArea = document.getElementById('cardFormArea');
+        const cardSuccessArea = document.getElementById('cardSuccessArea');
+        const creditCardForm = document.getElementById('creditCardForm');
+        const btnSubmitCard = document.getElementById('btnSubmitCard');
+
+        // Formata o número do cartão automaticamente (0000 0000 0000 0000)
+        document.getElementById('cardNumber').addEventListener('input', function (e) {
+            let valor = e.target.value.replace(/\D/g, '');
+            valor = valor.replace(/(\d{4})(?=\d)/g, '$1 ');
+            e.target.value = valor;
+        });
+
+        // Formata a validade automaticamente (MM/AA)
+        document.getElementById('cardExpiry').addEventListener('input', function (e) {
+            let valor = e.target.value.replace(/\D/g, '');
+            if (valor.length >= 3) {
+                valor = valor.slice(0, 2) + '/' + valor.slice(2, 4);
+            }
+            e.target.value = valor;
+        });
+
+        // Abre o modal ao clicar nos botões pagos
+        document.querySelectorAll('.btn-card:not(.btn-gratis)').forEach(botao => {
+            botao.addEventListener('click', function (evento) {
+                evento.preventDefault();
+
+                modalPlanName.textContent = this.getAttribute('data-plano');
+                modalPlanPrice.textContent = this.getAttribute('data-valor');
+
+                cardFormArea.style.display = 'block';
+                cardSuccessArea.style.display = 'none';
+                creditCardForm.reset();
+                btnSubmitCard.textContent = 'Confirmar Pagamento';
+                btnSubmitCard.disabled = false;
+
+                cardModal.style.display = 'flex';
+            });
+        });
+
+        // Processa o pagamento e exibe confirmação
+        creditCardForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const plano = modalPlanName.textContent;
+            const modalidade = document.getElementById('cardMode').value;
+            const numeroCartao = document.getElementById('cardNumber').value;
+            const ultimosDigitos = numeroCartao.slice(-4) || '****';
+
+            btnSubmitCard.textContent = 'Processando pagamento...';
+            btnSubmitCard.disabled = true;
+
+            document.getElementById('cardSuccessText').innerHTML =
+                'Pagamento do <strong>' + plano + '</strong> aprovado no cartão de <strong>' + modalidade + '</strong> final <strong>' + ultimosDigitos + '</strong>. Seu acesso completo já está liberado!';
+            cardSuccessArea.style.display = 'block';
+        }, 1200);
+
+        closeCardModal.addEventListener('click', () => {
+            cardModal.style.display = 'none';
+        });
+
+        cardModal.addEventListener('click', (e) => {
+            if (e.target === cardModal) {
+                cardModal.style.display = 'none';
+            }
+        });
+
+        document.getElementById('btnSair').addEventListener('click', function (e) {
+            e.preventDefault();
+            sessionStorage.removeItem('logado');
+            window.location.href = "login.html";
+        });
     </script>
+
+    <script src="footer.js"></script>
 </body>
 
 </html>

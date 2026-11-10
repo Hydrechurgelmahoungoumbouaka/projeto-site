@@ -2,59 +2,263 @@
 <html lang="pt-BR">
 
 <head>
+    <script>
+        if (sessionStorage.getItem('logado') !== 'true') {
+            window.location.href = "login.html";
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Meu Curso de HTML5 e CSS3</title>
+
+    <style>
+        @keyframes surgirSuave {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes flutuar3D {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-16px);
+            }
+        }
+
+        @keyframes piscarCursor {
+            0%, 100% { border-color: transparent; }
+            50% { border-color: #d6cebf; }
+        }
+
+        .hero-text h1 {
+            border-right: 3px solid #d6cebf;
+            padding-right: 8px;
+            animation: surgirSuave 0.8s ease-out forwards, piscarCursor 0.9s infinite;
+        }
+
+        .hero-text p {
+            opacity: 0;
+            animation: surgirSuave 0.8s ease-out 0.25s forwards;
+        }
+
+        .hero-text .btn-primary {
+            opacity: 0;
+            animation: surgirSuave 0.8s ease-out 0.45s forwards;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .hero-text .btn-primary:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .hero-image {
+            perspective: 1000px;
+        }
+
+        .hero-image img {
+            animation: surgirSuave 1s ease-out forwards, flutuar3D 3.5s ease-in-out 1s infinite;
+            transition: transform 0.15s ease-out;
+        }
+
+        /* Estilos dos Depoimentos e FAQ */
+        .testimonials-section {
+            padding: 60px 8%;
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            color: #d6cebf;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+        }
+
+        .testimonials-grid {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .testimonial-card {
+            background: #3b3531;
+            border: 1px solid #5a524c;
+            border-radius: 14px;
+            padding: 25px;
+            flex: 1;
+            min-width: 280px;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: #d6cebf;
+        }
+
+        .testimonial-card p {
+            color: #e6dfd3;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .faq-section {
+            padding: 40px 8% 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .faq-item {
+            background: #3b3531;
+            border: 1px solid #5a524c;
+            border-radius: 10px;
+            padding: 18px;
+            color: #d6cebf;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .faq-item:hover {
+            border-color: #d6cebf;
+        }
+
+        .faq-item summary {
+            font-weight: bold;
+            color: #ffffff;
+            font-size: 1.05rem;
+        }
+
+        .faq-item p {
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+    </style>
 </head>
 
 <body>
-    <!--Menu de Navegacao-->
     <header class="navbar">
         <div class="logo">DevCurso 3D</div>
         <nav>
-            <a href="index.html" target="_blank">Inicio</a>
-            <a href="aulas.html" target="_blank">Aulas</a>
-            <a href="preco.html" target="_blank">Preço</a>
+            <a href="index.html">Inicio</a>
+            <a href="aulas.html">Aulas</a>
+            <a href="praticar.html">Praticar</a>
+            <a href="preco.html">Preço</a>
+            <a href="#" id="btnSair"
+                style="color: #ff6b6b; margin-left: 20px; font-weight: bold; text-decoration: none;">Sair</a>
         </nav>
     </header>
 
-    <!--Secao principal-->
-    <main class="hero-container">
+    <main class="hero-container" style="min-height: 80vh; display: flex; align-items: center;">
         <div class="hero-text">
-            <h1>Aprenda HTML e CSS do Zero ao Avançado</h1>
-            <p>Domine a estrutura e a estilização da Web com um método prático,visual e direto ao ponto.</p>
-            <a href="preco.html" target="_blank" class="btn-primary"
-                style="text-decoration: none; display: inline-block; text-align: center;">Quero Começar Agora</a>
-
+            <h1 id="heroTitle"></h1>
+            <p>Domine a estrutura e a estilização da Web com um método prático, visual e direto ao ponto.</p>
+            <a href="preco.html" class="btn-primary"
+                style="color: inherit; text-decoration: none; display: inline-block; text-align: center;">Quero Começar
+                Agora</a>
         </div>
 
-        <div class="hero-imagem">
-            <!--imagem da aula-->
-            <img src="imagens/imagem-computacao-3d.png" alt="Ilustração 3D de desenvolvimento Web">
+        <div class="hero-image" id="tiltContainer">
+            <img id="tiltImg" src="imagens/imagem-computacao-3d.png" alt="Ilustração 3D de desenvolvimento Web">
         </div>
-        <main>
-            <!-- Seção Sobre o Instrutor -->
-            <section class="instructor-section">
-                <div class="instructor-container">
-                    <div class="instructor-image">
-                        <!-- Certifique-se de salvar sua foto com o nome 'hydrech.png' na mesma pasta -->
-                        <img src="imagens/hydrech.png" alt="Foto do Instrutor Hydrech Urgel Mahoungou Mbouaka">
-                    </div>
-                    <div class="instructor-text">
-                        <span>CONHEÇA O SEU MESTRE</span>
-                        <h2>Hydrech Urgel Mahoungou Mbouaka</h2>
-                        <p>Desenvolvedor apaixonado por tecnologia e especialista em desenvolvimento Front-End. Com uma
-                            metodologia prática e direta ao ponto, vou te guiar passo a passo na criação dos seus
-                            primeiros sites modernos utilizando HTML5 e CSS3 do zero absoluto.</p>
-                        <div class="instructor-badges">
-                            <span class="badge-item">💻 +500 Alunos</span>
-                            <span class="badge-item">⭐ Avaliação 4.9/5</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    </main>
 
+    <!-- Seção de Depoimentos dos Alunos -->
+    <section class="testimonials-section">
+        <h2 class="section-heading">O que dizem nossos alunos</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p>"Didática direta ao ponto! Em uma semana já consegui montar meu primeiro portfólio responsivo usando Flexbox."</p>
+                <strong style="color: #ffffff;">Ridevel Mahoungou</strong> <span style="color: #aba395; font-size: 0.85rem;">— Estudante de Ciencia de Computacao</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"O laboratório prático e os resumos organizados facilitam muito para quem está começando do zero absoluto."</p>
+                <strong style="color: #ffffff;">Thaina Preval</strong> <span style="color: #aba395; font-size: 0.85rem;">— Estudante de Arquitetura & Urbanismo</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"A parte de efeitos 3D Claymorphism deixou meus projetos com um visual totalmente diferenciado."</p>
+                <strong style="color: #ffffff;">Ted Jules Mboungou</strong> <span style="color: #aba395; font-size: 0.85rem;">— Estudante de Ciencia de Computacao</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Perguntas Frequentes (FAQ) -->
+    <section class="faq-section">
+        <h2 class="section-heading">Perguntas Frequentes</h2>
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>Preciso ter experiência prévia com programação?</summary>
+                <p>Não! O curso começa desde como a internet funciona e a instalação do VS Code até projetos completos em HTML5 e CSS3.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Como funciona a emissão do certificado?</summary>
+                <p>Assim que você concluir 100% das aulas na aba Grade de Aulas, o botão de certificado é liberado automaticamente para salvar em PDF ou imprimir.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Posso praticar código direto pelo navegador?</summary>
+                <p>Sim! Acesse a aba <strong>Praticar</strong> no menu superior para testar códigos HTML e CSS em tempo real sem precisar instalar nada.</p>
+            </details>
+        </div>
+    </section>
+
+    <script>
+        // 1. Efeito Typewriter (Digitação) no Título Principal
+        const textoTitulo = "Aprenda HTML e CSS do Zero ao Avançado";
+        const tituloEl = document.getElementById("heroTitle");
+        let i = 0;
+
+        function digitarTitulo() {
+            if (i < textoTitulo.length) {
+                tituloEl.textContent += textoTitulo.charAt(i);
+                i++;
+                setTimeout(digitarTitulo, 40);
+            } else {
+                setTimeout(() => { tituloEl.style.borderRight = "none"; }, 2000);
+            }
+        }
+        digitarTitulo();
+
+        // 2. Efeito Tilt 3D na Imagem ao mover o mouse
+        const tiltContainer = document.getElementById("tiltContainer");
+        const tiltImg = document.getElementById("tiltImg");
+
+        tiltContainer.addEventListener("mousemove", (e) => {
+            const rect = tiltContainer.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            tiltImg.style.animation = "none";
+            tiltImg.style.transform = `rotateY(${x * 22}deg) rotateX(${-y * 22}deg) scale(1.04)`;
+        });
+
+        tiltContainer.addEventListener("mouseleave", () => {
+            tiltImg.style.transform = "rotateY(0deg) rotateX(0deg) scale(1)";
+            tiltImg.style.animation = "flutuar3D 3.5s ease-in-out infinite";
+        });
+
+        // 3. Botão Sair
+        document.getElementById('btnSair').addEventListener('click', function (e) {
+            e.preventDefault();
+            sessionStorage.removeItem('logado');
+            window.location.href = "login.html";
+        });
+    </script>
+
+    <script src="footer.js"></script>
 </body>
 
 </html>
