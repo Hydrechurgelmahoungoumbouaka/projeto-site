@@ -1,4 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Verifica se o aluno já pagou para criar o item "Aulas" no menu
+    const emailLogado = localStorage.getItem('usuarioAtual') || 'visitante';
+    const menuNav = document.querySelector('.navbar nav');
+
+    if (menuNav && localStorage.getItem('cursoPago_' + emailLogado) === 'true') {
+        const linkAulas = document.createElement('a');
+        linkAulas.href = 'aulas.html';
+        linkAulas.textContent = 'Aulas';
+        // Insere logo após o link "Inicio"
+        menuNav.insertBefore(linkAulas, menuNav.children[1]);
+    }
+
     const rodapeHTML = `
     <footer class="site-footer" id="siteFooter">
         <div class="footer-content">
