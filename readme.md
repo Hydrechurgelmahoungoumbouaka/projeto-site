@@ -36,7 +36,7 @@ Desenvolvido sem dependências de frameworks externos:
 ## 🚀 Como Executar Localmente
 
 ```bash
-git clone [https://github.com](https://github.com/Hydrechurgelmahoungoumbouaka/projeto-site.git)
+git clone https://github.com/Hydrechurgelmahoungoumbouaka/projeto-site.git
 cd projeto-site
 # Abra o arquivo login.html no navegador ou use a extensão Live Server
 ```
@@ -47,4 +47,4 @@ cd projeto-site
 
 **Hydrech Urgel Mahoungou Mbouaka** – Estudante de Engenharia da Computação (UFES)  
 📧 [urgelhydrech@gmail.com](mailto:urgelhydrech@gmail.com) | 📱 [(27) 99506-8550](https://wa.me)  
-🔗 [GitHub](https://github.com) | [LinkedIn](https://linkedin.com)
+🔗 [GitHub](https://github.com/Hydrechurgelmahoungoumbouaka) | [LinkedIn](https://www.linkedin.com/in/hydrech-urgel-mahoungou-mbouaka-5778073b6/)
